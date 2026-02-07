@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="te">
 <head>
 <meta charset="UTF-8">
-<title>Shivaratri DP Generator</title>
+<title>వీణవంక మహా శివరాత్రి కళ్యాణ మహోత్సవం</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -17,8 +17,34 @@ body{
   min-height:100vh;
 }
 
-h3{
-  margin:12px 0;
+/* ===== TOP TEXT ===== */
+.main-title{
+  font-size:18px;
+  font-weight:bold;
+  margin-top:12px;
+  color:#ffeb3b;
+  text-shadow:0 0 8px rgba(255,215,0,0.8);
+}
+
+/* ===== SLIDING OM TEXT ===== */
+.om-slider{
+  overflow:hidden;
+  white-space:nowrap;
+  margin:6px 0 12px;
+}
+
+.om-text{
+  display:inline-block;
+  padding-left:100%;
+  animation: scrollOm 18s linear infinite;
+  font-size:16px;
+  color:#ffffff;
+  text-shadow:0 0 6px rgba(255,255,255,0.8);
+}
+
+@keyframes scrollOm{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-100%); }
 }
 
 /* ===== LAYOUT ===== */
@@ -27,21 +53,22 @@ h3{
   justify-content:center;
   align-items:center;
   gap:24px;
-  margin-top:10px;
+  margin-top:6px;
 }
 
-/* Shiva Namam (LEFT, OUTSIDE FRAME) */
+/* Shiva Namam LEFT */
 .namam-box{
   width:120px;
   flex-shrink:0;
+  z-index:10;
 }
 
 .namam-box img{
   width:100%;
-  mix-blend-mode: darken;
+  mix-blend-mode: normal;
   filter:
-    drop-shadow(0 0 6px rgba(255,255,255,0.6))
-    drop-shadow(0 0 14px rgba(255,215,0,0.6));
+    drop-shadow(0 0 6px rgba(255,255,255,0.8))
+    drop-shadow(0 0 16px rgba(255,215,0,0.9));
 }
 
 /* Frame wrapper */
@@ -57,7 +84,7 @@ canvas{
   box-shadow:0 0 25px rgba(255,215,0,0.4);
 }
 
-/* Upload overlay on white photo area */
+/* Upload overlay */
 .upload-overlay{
   position:absolute;
   left:73%;
@@ -124,17 +151,30 @@ canvas{
   .namam-box{
     width:90px;
   }
+  .main-title{
+    font-size:16px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<h3>🕉️ Shivaratri DP Generator</h3>
+<!-- TOP HEADING -->
+<div class="main-title">
+  వీణవంక మహా శివరాత్రి కళ్యాణ మహోత్సవానికి అందరికీ స్వాగతం 🙏
+</div>
+
+<!-- SLIDING OM TEXT -->
+<div class="om-slider">
+  <div class="om-text">
+    🕉️ ఓం నమః శివాయ 🙏 ఓం నమః శివాయ 🔱 ఓం నమః శివాయ 🕉️ ఓం నమః శివాయ 🙏
+  </div>
+</div>
 
 <div class="frame-area">
 
-  <!-- Shiva Namam (LEFT, NOT OVER FRAME) -->
+  <!-- Shiva Namam LEFT -->
   <div class="namam-box">
     <img src="shiva-namam.png" alt="Shiva Namam">
   </div>
@@ -149,7 +189,6 @@ canvas{
 
     <canvas id="canvas" width="1080" height="1080"></canvas>
   </div>
-
 </div>
 
 <div class="actions">
@@ -168,13 +207,12 @@ const ctx = canvas.getContext("2d");
 const frame = new Image();
 frame.src = "frame.jpeg";
 
-/* ===== YOUR EXACT PHOTO SETTINGS ===== */
+/* PHOTO POSITION (UNCHANGED) */
 let PHOTO_X = 619;
 let PHOTO_Y = 379;
 let PHOTO_W = 345;
 let PHOTO_H = 351;
 let CORNER_RADIUS = 30;
-/* =================================== */
 
 let counterValue = 1;
 
@@ -224,13 +262,15 @@ function updateCounter(){
 
 function download(){
   const a=document.createElement("a");
-  a.download="shivaratri-dp.png";
+  a.download="veenavanka-maha-shivaratri-dp.png";
   a.href=canvas.toDataURL("image/png");
   a.click();
 }
 
 function shareWhatsApp(){
-  const text = encodeURIComponent("🕉️ నా శివరాత్రి డీపీ 🙏\nమీరు కూడా తయారు చేసుకోండి 👇");
+  const text = encodeURIComponent(
+    "🕉️ వీణవంక మహా శివరాత్రి కళ్యాణ మహోత్సవం 🙏\nనా శివరాత్రి డీపీ 👇"
+  );
   const url = encodeURIComponent(location.href);
   window.open(`https://wa.me/?text=${text}%20${url}`,"_blank");
 }
