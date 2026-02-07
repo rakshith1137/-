@@ -1,123 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Maha Shivaratri WhatsApp DP Frame</title>
+<title>Shivaratri DP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  background: #111;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
+body{
+  margin:0;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
-
-/* MAIN WRAPPER */
-#dp-wrapper {
-  width: 360px;
-  text-align: center;
+canvas{
+  width:100%;
+  max-width:420px;
 }
-
-/* DP CANVAS – WHATSAPP SAFE CIRCLE */
-#dp-canvas {
-  position: relative;
-  width: 360px;
-  height: 360px;
-  padding: 42px; /* WhatsApp safe zone */
-  box-sizing: border-box;
-  background-image: url("frame.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+input,button{
+  display:block;
+  margin:10px auto;
+  padding:10px;
+  font-size:16px;
 }
-
-/* USER PHOTO FRAME */
-#user-frame {
-  position: absolute;
-  top: 40%;
-  right: 16%;
-  width: 30%;
-  height: 28%;
-  background: #ffffff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.35);
-}
-
-/* USER PHOTO */
-#user-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* CONTROLS */
-.controls {
-  margin-top: 14px;
-}
-
-input[type=file] {
-  margin-bottom: 10px;
-}
-
-button {
-  padding: 8px 16px;
-  background: #0a7cff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #055ed6;
+button{
+  background:#1976ff;
+  color:#fff;
+  border:none;
+  border-radius:6px;
 }
 </style>
 </head>
 
 <body>
-
-<div id="dp-wrapper">
-
-  <div id="dp-canvas">
-    <div id="user-frame">
-      <img id="user-photo">
-    </div>
-  </div>
-
-  <div class="controls">
-    <input type="file" accept="image/*" onchange="loadPhoto(event)">
-    <br>
-    <button onclick="downloadDP()">Download WhatsApp DP</button>
-  </div>
-
+<div>
+<input type="file" id="upload" accept="image/*">
+<canvas id="c"></canvas>
+<button onclick="download()">Download</button>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script>
-function loadPhoto(event) {
-  document.getElementById("user-photo").src =
-    URL.createObjectURL(event.target.files[0]);
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+const frame = new Image();
+frame.src = "frame.png"; // your SAME image
+
+let userImg = null;
+
+// 🔴 EXACT WHITE BOX POSITION (THIS IS THE KEY)
+const HOLE = {
+  x: 620,
+  y: 270,
+  w: 360,
+  h: 360,
+  r: 30
+};
+
+function roundRect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
 }
 
-function downloadDP() {
-  html2canvas(document.getElementById("dp-canvas"), {
-    scale: 3
-  }).then(canvas => {
-    const link = document.createElement("a");
-    link.download = "shivaratri_whatsapp_dp.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-  });
+frame.onload = ()=>{
+  canvas.width = frame.width;
+  canvas.height = frame.height;
+  draw();
+};
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  if(userImg){
+    const scale = Math.max(
+      HOLE.w / userImg.width,
+      HOLE.h / userImg.height
+    );
+    const dw = userImg.width * scale;
+    const dh = userImg.height * scale;
+    const dx = HOLE.x + (HOLE.w - dw)/2;
+    const dy = HOLE.y + (HOLE.h - dh)/2;
+
+    ctx.save();
+    roundRect(HOLE.x,HOLE.y,HOLE.w,HOLE.h,HOLE.r);
+    ctx.clip();
+    ctx.drawImage(userImg, dx, dy, dw, dh);
+    ctx.restore();
+  }
+
+  // frame ALWAYS on top
+  ctx.drawImage(frame,0,0);
+}
+
+upload.onchange = e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    userImg = new Image();
+    userImg.onload = draw;
+    userImg.src = r.result;
+  };
+  r.readAsDataURL(f);
+};
+
+function download(){
+  const a = document.createElement("a");
+  a.download = "shivaratri-dp.png";
+  a.href = canvas.toDataURL();
+  a.click();
 }
 </script>
-
 </body>
 </html>
