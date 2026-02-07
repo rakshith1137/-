@@ -11,15 +11,11 @@ body{
   font-family:sans-serif;
   text-align:center;
   color:white;
-
   background:
     radial-gradient(circle at 50% 20%, rgba(173,216,230,0.25), transparent 40%),
     linear-gradient(180deg, #0b1d3a, #000000);
-
   min-height:100vh;
 }
-
-
 
 h3{
   margin:12px 0;
@@ -36,6 +32,36 @@ canvas{
   display:block;
   border-radius:14px;
   box-shadow:0 0 25px rgba(255,215,0,0.4);
+}
+
+/* ===== Shiva Namam (LEFT SIDE) ===== */
+.namam-box{
+  position:absolute;
+  left:6%;
+  top:55%;
+  transform:translateY(-50%);
+  width:120px;
+  z-index:4;
+}
+
+.namam-box img{
+  width:100%;
+  mix-blend-mode:multiply; /* removes white bg */
+  filter:
+    drop-shadow(0 0 6px rgba(255,255,255,0.6))
+    drop-shadow(0 0 14px rgba(255,215,0,0.6));
+}
+
+/* Mobile */
+@media(max-width:480px){
+  .namam-box{
+    position:relative;
+    left:auto;
+    top:auto;
+    transform:none;
+    margin:10px auto;
+    width:90px;
+  }
 }
 
 /* Upload overlay exactly on white space */
@@ -104,6 +130,12 @@ canvas{
 
 <div class="wrapper">
 
+  <!-- Shiva Namam -->
+  <div class="namam-box">
+    <img src="shiva-namam.png" alt="Shiva Namam">
+  </div>
+
+  <!-- Upload button -->
   <div class="upload-overlay" id="uploadOverlay">
     <button>📷 ఫోటో ఎంచుకోండి</button>
     <input type="file" id="upload" accept="image/*">
@@ -128,13 +160,13 @@ const ctx = canvas.getContext("2d");
 const frame = new Image();
 frame.src = "frame.jpeg";
 
-/* ---- YOUR ORIGINAL POSITION VALUES ---- */
+/* ---- YOUR EXACT TUNED VALUES ---- */
 let PHOTO_X = 619;
 let PHOTO_Y = 379;
 let PHOTO_W = 345;
 let PHOTO_H = 351;
 let CORNER_RADIUS = 30;
-/* -------------------------------------- */
+/* -------------------------------- */
 
 let counterValue = 1;
 
@@ -181,7 +213,6 @@ function updateCounter(){
     el.textContent = rounded + "+";
   }
 }
-
 
 function download(){
   const a=document.createElement("a");
