@@ -2,32 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Shivaratri WhatsApp DP</title>
+<title>Shivaratri DP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
   background:#000;
+  min-height:100vh;
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  min-height:100vh;
-  font-family: Arial, sans-serif;
-}
-.wrapper{
-  width:100%;
-  max-width:420px;
-  text-align:center;
+  font-family:Arial, sans-serif;
+  color:#fff;
 }
 canvas{
   width:100%;
-  height:auto;
-  display:block;
+  max-width:420px;
+  border:1px solid #333;
 }
 input,button{
-  margin:10px 0;
-  padding:10px;
+  margin:12px;
+  padding:10px 16px;
   font-size:16px;
 }
 button{
@@ -36,40 +33,36 @@ button{
   border:none;
   border-radius:6px;
 }
+#error{
+  color:#ff5252;
+  margin-top:10px;
+}
 </style>
 </head>
 
 <body>
-<div class="wrapper">
 
 <input type="file" id="upload" accept="image/*">
 
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="1080" height="1080"></canvas>
 
-<button onclick="download()">Download WhatsApp DP</button>
+<button onclick="download()">Download</button>
 
-</div>
+<div id="error"></div>
 
 <script>
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const errorBox = document.getElementById("error");
 
-// 🔴 FRAME IMAGE (JPEG)
 const frame = new Image();
-frame.src = "frame.jpeg";
+frame.src = "./frame.jpeg";   // EXACT path
 
 let userImg = null;
 
-// 🔴 WHITE PHOTO AREA (tuned for YOUR frame)
-const PHOTO_AREA = {
-  x: 620,
-  y: 270,
-  w: 360,
-  h: 360,
-  r: 30
-};
+// white box position
+const PHOTO = { x:620, y:270, w:360, h:360, r:30 };
 
-// rounded rectangle function
 function roundRect(x,y,w,h,r){
   ctx.beginPath();
   ctx.moveTo(x+r,y);
@@ -84,67 +77,56 @@ function roundRect(x,y,w,h,r){
   ctx.closePath();
 }
 
-// when frame loads
-frame.onload = ()=>{
+frame.onload = () => {
   canvas.width = frame.width;
   canvas.height = frame.height;
   draw();
 };
 
+frame.onerror = () => {
+  errorBox.textContent =
+    "❌ frame.jpeg NOT loaded. Check filename & GitHub Pages URL.";
+};
+
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  // draw user image INSIDE white box
   if(userImg){
-    const scale = Math.max(
-      PHOTO_AREA.w / userImg.width,
-      PHOTO_AREA.h / userImg.height
-    );
-
-    const dw = userImg.width * scale;
-    const dh = userImg.height * scale;
-
-    const dx = PHOTO_AREA.x + (PHOTO_AREA.w - dw)/2;
-    const dy = PHOTO_AREA.y + (PHOTO_AREA.h - dh)/2;
+    const s = Math.max(PHOTO.w/userImg.width, PHOTO.h/userImg.height);
+    const dw = userImg.width*s;
+    const dh = userImg.height*s;
+    const dx = PHOTO.x + (PHOTO.w-dw)/2;
+    const dy = PHOTO.y + (PHOTO.h-dh)/2;
 
     ctx.save();
-    roundRect(
-      PHOTO_AREA.x,
-      PHOTO_AREA.y,
-      PHOTO_AREA.w,
-      PHOTO_AREA.h,
-      PHOTO_AREA.r
-    );
+    roundRect(PHOTO.x,PHOTO.y,PHOTO.w,PHOTO.h,PHOTO.r);
     ctx.clip();
-    ctx.drawImage(userImg, dx, dy, dw, dh);
+    ctx.drawImage(userImg,dx,dy,dw,dh);
     ctx.restore();
   }
 
-  // draw frame on top
   ctx.drawImage(frame,0,0);
 }
 
-// upload image
-document.getElementById("upload").addEventListener("change", e=>{
-  const file = e.target.files[0];
-  if(!file) return;
+upload.onchange = e=>{
+  const f = e.target.files[0];
+  if(!f) return;
 
-  const reader = new FileReader();
-  reader.onload = ()=>{
+  const r = new FileReader();
+  r.onload = ()=>{
     const img = new Image();
     img.onload = ()=>{
       userImg = img;
       draw();
     };
-    img.src = reader.result;
+    img.src = r.result;
   };
-  reader.readAsDataURL(file);
-});
+  r.readAsDataURL(f);
+};
 
-// download
 function download(){
   const a = document.createElement("a");
-  a.download = "shivaratri-whatsapp-dp.png";
+  a.download = "shivaratri-dp.png";
   a.href = canvas.toDataURL("image/png");
   a.click();
 }
