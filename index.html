@@ -1,76 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shivaratri DP Frame</title>
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+  }
+  canvas {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 10px;
+  }
+  input, button {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+
+<h3>🕉️ Shivaratri DP Generator</h3>
+
+<input type="file" id="upload" accept="image/*">
+<br>
+<canvas id="canvas" width="1080" height="1080"></canvas>
+<br>
+<button onclick="download()">Download DP</button>
+
 <script>
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const frame = new Image();
-frame.src = "frame.jpeg";
+frame.src = "frame.jpeg"; // your uploaded frame image
 
-let userImg = null;
-
-// EXACT white box area
-const PHOTO = { x:620, y:270, w:360, h:360, r:30 };
-
-function roundRect(x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h-r);
-  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  ctx.lineTo(x+r,y+h);
-  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-  ctx.lineTo(x,y+r);
-  ctx.quadraticCurveTo(x,y,x+r,y);
-  ctx.closePath();
-}
-
-frame.onload = ()=>{
-  canvas.width = frame.width;
-  canvas.height = frame.height;
-  draw();
+frame.onload = () => {
+  ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
 };
 
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+document.getElementById("upload").addEventListener("change", e => {
+  const img = new Image();
+  img.src = URL.createObjectURL(e.target.files[0]);
 
-  // 1️⃣ DRAW FRAME FIRST
-  ctx.drawImage(frame,0,0);
+  img.onload = () => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  // 2️⃣ DRAW USER IMAGE ON TOP (CLIPPED)
-  if(userImg){
-    const scale = Math.max(
-      PHOTO.w / userImg.width,
-      PHOTO.h / userImg.height
-    );
+    // ---- PHOTO AREA COORDINATES (adjust if needed) ----
+    const x = 650;
+    const y = 330;
+    const w = 330;
+    const h = 330;
 
-    const dw = userImg.width * scale;
-    const dh = userImg.height * scale;
-    const dx = PHOTO.x + (PHOTO.w - dw)/2;
-    const dy = PHOTO.y + (PHOTO.h - dh)/2;
+    // draw frame
+    ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+
+    // crop square from user image
+    const size = Math.min(img.width, img.height);
+    const sx = (img.width - size) / 2;
+    const sy = (img.height - size) / 2;
 
     ctx.save();
-    roundRect(PHOTO.x,PHOTO.y,PHOTO.w,PHOTO.h,PHOTO.r);
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, 30);
     ctx.clip();
-    ctx.drawImage(userImg, dx, dy, dw, dh);
+
+    ctx.drawImage(img, sx, sy, size, size, x, y, w, h);
     ctx.restore();
-  }
-}
-
-upload.onchange = e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    const img = new Image();
-    img.onload = ()=>{
-      userImg = img;
-      draw();
-    };
-    img.src = reader.result;
   };
-  reader.readAsDataURL(file);
-};
+});
 
 function download(){
   const a = document.createElement("a");
@@ -79,3 +82,6 @@ function download(){
   a.click();
 }
 </script>
+
+</body>
+</html>
