@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Shivaratri DP Frame</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
   body {
     margin: 0;
@@ -23,14 +25,15 @@
   }
 </style>
 </head>
+
 <body>
 
 <h3>🕉️ Shivaratri DP Generator</h3>
 
-<input type="file" id="upload" accept="image/*">
-<br>
-<canvas id="canvas" width="1080" height="1080"></canvas>
-<br>
+<input type="file" id="upload" accept="image/*"><br>
+
+<canvas id="canvas" width="1080" height="1080"></canvas><br>
+
 <button onclick="download()">Download DP</button>
 
 <script>
@@ -38,7 +41,17 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const frame = new Image();
-frame.src = "frame.jpeg"; // your uploaded frame image
+frame.src = "frame.jpeg";
+
+/* =========================
+   🔧 EASY ADJUST CONTROLS
+   ========================= */
+let PHOTO_X = 650;   // ← → move
+let PHOTO_Y = 360;   // ↑ ↓ move
+let PHOTO_W = 340;   // width
+let PHOTO_H = 350;   // height
+let CORNER_RADIUS = 30;
+/* ========================= */
 
 frame.onload = () => {
   ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
@@ -51,26 +64,32 @@ document.getElementById("upload").addEventListener("change", e => {
   img.onload = () => {
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // ---- PHOTO AREA COORDINATES (adjust if needed) ----
-    const x = 650;
-    const y = 360;
-    const w = 340;
-    const h = 350;
-
-    // draw frame
+    // draw frame first
     ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
 
-    // crop square from user image
+    // crop square from user image (WhatsApp DP style)
     const size = Math.min(img.width, img.height);
     const sx = (img.width - size) / 2;
     const sy = (img.height - size) / 2;
 
     ctx.save();
     ctx.beginPath();
-    ctx.roundRect(x, y, w, h, 30);
+    ctx.roundRect(
+      PHOTO_X,
+      PHOTO_Y,
+      PHOTO_W,
+      PHOTO_H,
+      CORNER_RADIUS
+    );
     ctx.clip();
 
-    ctx.drawImage(img, sx, sy, size, size, x, y, w, h);
+    ctx.drawImage(
+      img,
+      sx, sy, size, size,
+      PHOTO_X, PHOTO_Y,
+      PHOTO_W, PHOTO_H
+    );
+
     ctx.restore();
   };
 });
@@ -85,3 +104,4 @@ function download(){
 
 </body>
 </html>
+
