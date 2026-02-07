@@ -44,7 +44,7 @@ body{
   to{ transform:translateX(-100%); }
 }
 
-/* ===== MAIN LAYOUT ===== */
+/* ===== FRAME AREA ===== */
 .frame-area{
   display:grid;
   grid-template-columns: 1fr auto 1fr;
@@ -127,195 +127,36 @@ canvas{
 .download{ background:#2979ff; color:#fff; }
 .whatsapp{ background:#25D366; color:#fff; }
 
-/* ===== PERSONAL WELCOME ===== */
-.welcome-section{
-  max-width:900px;
+/* ===== NEWS STYLE LOWER BAR ===== */
+.news-bar{
+  max-width:1000px;
   margin:20px auto 30px;
-  padding:16px;
+  padding:18px 22px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:20px;
 
-  background:rgba(255,255,255,0.08);
-  border-radius:14px;
-  box-shadow:0 0 18px rgba(255,215,0,0.25);
+  background:linear-gradient(
+    135deg,
+    rgba(255,215,0,0.15),
+    rgba(0,0,0,0.65)
+  );
+
+  border-radius:999px;
+  box-shadow:
+    0 0 25px rgba(255,215,0,0.35),
+    inset 0 0 20px rgba(255,255,255,0.05);
 }
 
-.welcome-text{
+/* Text in middle */
+.news-text{
+  flex:1;
+  text-align:center;
   color:#fff7c2;
-  text-align:left;
   line-height:1.6;
 }
 
-.welcome-msg{
-  font-size:16px;
-  margin:0;
-}
-
-.welcome-name{
-  margin-top:8px;
-  font-size:15px;
-  color:#ffeb3b;
-}
-
-.welcome-photo img{
-  width:110px;
-  height:110px;
-  object-fit:cover;
-  border-radius:14px;
-  border:3px solid #ffeb3b;
-  box-shadow:0 0 12px rgba(255,215,0,0.6);
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:900px){
-  .frame-area{
-    grid-template-columns:1fr;
-    row-gap:14px;
-  }
-  .namam img{ width:90px; }
-}
-@media(max-width:700px){
-  .welcome-section{
-    flex-direction:column-reverse;
-    text-align:center;
-  }
-  .welcome-text{
-    text-align:center;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="main-title">
-  వీణవంక మహా శివరాత్రి కళ్యాణ మహోత్సవానికి అందరికీ స్వాగతం 🙏
-</div>
-
-<div class="om-slider">
-  <div class="om-text">
-    🕉️ ఓం నమః శివాయ 🙏 ఓం నమః శివాయ 🔱 ఓం నమః శివాయ 🕉️ ఓం నమః శివాయ 🙏
-  </div>
-</div>
-
-<div class="frame-area">
-
-  <div class="namam">
-    <img src="shiva-namam.png" alt="Shiva Namam">
-  </div>
-
-  <div>
-    <div class="wrapper">
-      <div class="upload-overlay" id="uploadOverlay">
-        <button>📷 ఫోటో ఎంచుకోండి</button>
-        <input type="file" id="upload" accept="image/*">
-      </div>
-      <canvas id="canvas" width="1080" height="1080"></canvas>
-    </div>
-
-    <div class="counter">
-      👥 ఇప్పటివరకు <span id="count">1</span> మంది భక్తులు ఈ ఫ్రేమ్ ఉపయోగించారు
-    </div>
-  </div>
-
-  <div class="namam">
-    <img src="shiva-namam.png" alt="Shiva Namam">
-  </div>
-
-</div>
-
-<div class="actions">
-  <button class="download" onclick="download()">Download DP</button>
-  <button class="whatsapp" onclick="shareWhatsApp()">Share WhatsApp</button>
-</div>
-
-<!-- PERSONAL WELCOME -->
-<div class="welcome-section">
-  <div class="welcome-text">
-    <p class="welcome-msg">
-      వీణవంక మహా శివరాత్రికి విచ్చేస్తున్న<br>
-      భక్తులందరికీ స్వాగతం, సుస్వాగతం 🙏
-    </p>
-    <p class="welcome-name">
-      – మీ సేవకుడు<br>
-      <strong>మీ పేరు ఇక్కడ</strong>
-    </p>
-  </div>
-  <div class="welcome-photo">
-    <img src="my-photo.jpg" alt="My Photo">
-  </div>
-</div>
-
-<script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-
-const frame = new Image();
-frame.src = "frame.jpeg";
-
-let PHOTO_X = 619;
-let PHOTO_Y = 379;
-let PHOTO_W = 345;
-let PHOTO_H = 351;
-let CORNER_RADIUS = 30;
-
-let counterValue = 1;
-
-frame.onload = ()=>ctx.drawImage(frame,0,0,canvas.width,canvas.height);
-
-upload.onchange = e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  document.getElementById("uploadOverlay").style.display="none";
-
-  const img = new Image();
-  img.src = URL.createObjectURL(file);
-
-  img.onload = ()=>{
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(frame,0,0,canvas.width,canvas.height);
-
-    const size = Math.min(img.width,img.height);
-    const sx = (img.width-size)/2;
-    const sy = (img.height-size)/2;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.roundRect(PHOTO_X,PHOTO_Y,PHOTO_W,PHOTO_H,CORNER_RADIUS);
-    ctx.clip();
-    ctx.drawImage(img,sx,sy,size,size,PHOTO_X,PHOTO_Y,PHOTO_W,PHOTO_H);
-    ctx.restore();
-
-    updateCounter();
-  };
-};
-
-function updateCounter(){
-  counterValue++;
-  const el = document.getElementById("count");
-  if(counterValue <= 100){
-    el.textContent = "చాలా మంది";
-  }else{
-    el.textContent = Math.floor(counterValue/100)*100 + "+";
-  }
-}
-
-function download(){
-  const a=document.createElement("a");
-  a.download="veenavanka-maha-shivaratri-dp.png";
-  a.href=canvas.toDataURL("image/png");
-  a.click();
-}
-
-function shareWhatsApp(){
-  const text = encodeURIComponent(
-    "🕉️ వీణవంక మహా శివరాత్రి కళ్యాణ మహోత్సవం 🙏\nనా శివరాత్రి డీపీ 👇"
-  );
-  window.open(`https://wa.me/?text=${text}%20${location.href}`,"_blank");
-}
-</script>
-
-</body>
-</html>
+.news-msg{
+  fo
