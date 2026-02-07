@@ -21,9 +21,32 @@ h3{
   margin:12px 0;
 }
 
+/* ===== LAYOUT ===== */
+.frame-area{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:24px;
+  margin-top:10px;
+}
+
+/* Shiva Namam (LEFT, OUTSIDE FRAME) */
+.namam-box{
+  width:120px;
+  flex-shrink:0;
+}
+
+.namam-box img{
+  width:100%;
+  mix-blend-mode: darken;
+  filter:
+    drop-shadow(0 0 6px rgba(255,255,255,0.6))
+    drop-shadow(0 0 14px rgba(255,215,0,0.6));
+}
+
+/* Frame wrapper */
 .wrapper{
   max-width:420px;
-  margin:auto;
   position:relative;
 }
 
@@ -34,37 +57,7 @@ canvas{
   box-shadow:0 0 25px rgba(255,215,0,0.4);
 }
 
-/* ===== Shiva Namam (LEFT SIDE) ===== */
-.namam-box{
-  position:absolute;
-  left:6%;
-  top:55%;
-  transform:translateY(-50%);
-  width:120px;
-  z-index:4;
-}
-
-.namam-box img{
-  width:100%;
-  mix-blend-mode:multiply; /* removes white bg */
-  filter:
-    drop-shadow(0 0 6px rgba(255,255,255,0.6))
-    drop-shadow(0 0 14px rgba(255,215,0,0.6));
-}
-
-/* Mobile */
-@media(max-width:480px){
-  .namam-box{
-    position:relative;
-    left:auto;
-    top:auto;
-    transform:none;
-    margin:10px auto;
-    width:90px;
-  }
-}
-
-/* Upload overlay exactly on white space */
+/* Upload overlay on white photo area */
 .upload-overlay{
   position:absolute;
   left:73%;
@@ -93,8 +86,9 @@ canvas{
   cursor:pointer;
 }
 
+/* Actions */
 .actions{
-  margin-top:12px;
+  margin-top:14px;
 }
 
 .actions button{
@@ -121,6 +115,16 @@ canvas{
   font-size:15px;
   color:#ffd54f;
 }
+
+/* ===== MOBILE ===== */
+@media(max-width:640px){
+  .frame-area{
+    flex-direction:column;
+  }
+  .namam-box{
+    width:90px;
+  }
+}
 </style>
 </head>
 
@@ -128,20 +132,24 @@ canvas{
 
 <h3>🕉️ Shivaratri DP Generator</h3>
 
-<div class="wrapper">
+<div class="frame-area">
 
-  <!-- Shiva Namam -->
+  <!-- Shiva Namam (LEFT, NOT OVER FRAME) -->
   <div class="namam-box">
     <img src="shiva-namam.png" alt="Shiva Namam">
   </div>
 
-  <!-- Upload button -->
-  <div class="upload-overlay" id="uploadOverlay">
-    <button>📷 ఫోటో ఎంచుకోండి</button>
-    <input type="file" id="upload" accept="image/*">
+  <!-- FRAME -->
+  <div class="wrapper">
+
+    <div class="upload-overlay" id="uploadOverlay">
+      <button>📷 ఫోటో ఎంచుకోండి</button>
+      <input type="file" id="upload" accept="image/*">
+    </div>
+
+    <canvas id="canvas" width="1080" height="1080"></canvas>
   </div>
 
-  <canvas id="canvas" width="1080" height="1080"></canvas>
 </div>
 
 <div class="actions">
@@ -160,13 +168,13 @@ const ctx = canvas.getContext("2d");
 const frame = new Image();
 frame.src = "frame.jpeg";
 
-/* ---- YOUR EXACT TUNED VALUES ---- */
+/* ===== YOUR EXACT PHOTO SETTINGS ===== */
 let PHOTO_X = 619;
 let PHOTO_Y = 379;
 let PHOTO_W = 345;
 let PHOTO_H = 351;
 let CORNER_RADIUS = 30;
-/* -------------------------------- */
+/* =================================== */
 
 let counterValue = 1;
 
