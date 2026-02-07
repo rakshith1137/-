@@ -123,10 +123,10 @@ const frame = new Image();
 frame.src = "frame.jpeg";
 
 /* ---- YOUR ORIGINAL POSITION VALUES ---- */
-let PHOTO_X = 620;
-let PHOTO_Y = 380;
-let PHOTO_W = 343;
-let PHOTO_H = 350;
+let PHOTO_X = 619;
+let PHOTO_Y = 379;
+let PHOTO_W = 344;
+let PHOTO_H = 351;
 let CORNER_RADIUS = 30;
 /* -------------------------------------- */
 
@@ -168,14 +168,14 @@ function updateCounter(){
   counterValue++;
   const el = document.getElementById("count");
 
-  if(counterValue < 100){
-    el.textContent = counterValue;
-  }else if(counterValue < 200){
-    el.textContent = "100+";
+  if(counterValue <= 100){
+    el.textContent = "చాలా మంది";
   }else{
-    el.textContent = "200+";
+    const rounded = Math.floor(counterValue / 100) * 100;
+    el.textContent = rounded + "+";
   }
 }
+
 
 function download(){
   const a=document.createElement("a");
