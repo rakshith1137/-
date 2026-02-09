@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* === CSS UNCHANGED === */
 body{
   margin:0;
   font-family:sans-serif;
@@ -16,8 +17,6 @@ body{
     linear-gradient(180deg, #0b1d3a, #000000);
   min-height:100vh;
 }
-
-/* ===== TOP TEXT ===== */
 .main-title{
   font-size:18px;
   font-weight:bold;
@@ -25,26 +24,15 @@ body{
   color:#ffeb3b;
   text-shadow:0 0 8px rgba(255,215,0,0.8);
 }
-
-/* ===== OM SLIDER ===== */
-.om-slider{
-  overflow:hidden;
-  white-space:nowrap;
-  margin-bottom:14px;
-}
+.om-slider{overflow:hidden;white-space:nowrap;margin-bottom:14px;}
 .om-text{
   display:inline-block;
   padding-left:100%;
-  animation: scrollOm 18s linear infinite;
+  animation:scrollOm 18s linear infinite;
   font-size:16px;
   text-shadow:0 0 6px rgba(255,255,255,0.8);
 }
-@keyframes scrollOm{
-  from{ transform:translateX(0); }
-  to{ transform:translateX(-100%); }
-}
-
-/* ===== FRAME AREA ===== */
+@keyframes scrollOm{from{transform:translateX(0);}to{transform:translateX(-100%);}}
 .frame-area{
   display:grid;
   grid-template-columns:1fr auto 1fr;
@@ -53,147 +41,54 @@ body{
   max-width:1200px;
   margin:auto;
 }
-
-.namam{
-  display:flex;
-  justify-content:center;
-}
-.namam img{
-  width:120px;
-  filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 18px gold);
-}
-
-.wrapper{
-  max-width:420px;
-  position:relative;
-}
-canvas{
-  width:100%;
-  border-radius:14px;
-  box-shadow:0 0 25px rgba(255,215,0,0.4);
-}
-
-/* Upload overlay */
-.upload-overlay{
-  position:absolute;
-  left:73%;
-  top:53%;
-  width:140px;
-  height:60px;
-  transform:translate(-50%,-50%);
-}
+.namam{display:flex;justify-content:center;}
+.namam img{width:120px;filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 18px gold);}
+.wrapper{max-width:420px;position:relative;}
+canvas{width:100%;border-radius:14px;box-shadow:0 0 25px rgba(255,215,0,0.4);}
+.upload-overlay{position:absolute;left:73%;top:53%;width:140px;height:60px;transform:translate(-50%,-50%);}
 .upload-overlay button{
-  width:100%;
-  height:100%;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#fff,#ffe082);
-  font-weight:bold;
+  width:100%;height:100%;border:none;border-radius:10px;
+  background:linear-gradient(135deg,#fff,#ffe082);font-weight:bold;
 }
-.upload-overlay input{
-  position:absolute;
-  inset:0;
-  opacity:0;
-}
-
-/* Counter */
-.counter{
-  margin:10px 0;
-  font-size:15px;
-  color:#ffd54f;
-}
-
-/* Buttons */
+.upload-overlay input{position:absolute;inset:0;opacity:0;}
+.counter{margin:10px 0;font-size:15px;color:#ffd54f;}
 .actions button{
-  padding:12px 18px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  margin:6px;
-  cursor:pointer;
+  padding:12px 18px;border:none;border-radius:10px;
+  font-size:16px;margin:6px;cursor:pointer;
 }
 .download{background:#2979ff;color:#fff;}
 .whatsapp{background:#25D366;color:#fff;}
-
-/* ===== NEWS CARD ===== */
 .news-bar{
-  max-width:1000px;
-  margin:24px auto 30px;
-  padding:20px;
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  align-items:center;
-  gap:20px;
+  max-width:1000px;margin:24px auto 30px;padding:20px;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;
   background:linear-gradient(135deg,rgba(255,215,0,0.18),rgba(0,0,0,0.7));
-  border-radius:999px;
-  box-shadow:0 0 25px rgba(255,215,0,0.4);
+  border-radius:999px;box-shadow:0 0 25px rgba(255,215,0,0.4);
 }
-
-/* LEFT PHOTO */
 .news-photo img{
-  width:120px;
-  height:120px;
-  object-fit:cover;
-  border-radius:12px;
-  border:3px solid #ffeb3b;
-  box-shadow:0 0 12px gold;
+  width:120px;height:120px;object-fit:cover;
+  border-radius:12px;border:3px solid #ffeb3b;box-shadow:0 0 12px gold;
 }
-
-/* CENTER TEXT */
-.news-text{
-  text-align:center;
-  color:#fff7c2;
-  font-size:17px;
-  line-height:1.8;
-}
-.news-text strong{
-  color:#ffeb3b;
-}
-
-/* RIGHT SPACE */
-.news-space{
-  width:120px;
-}
-
-/* ===== POPUP ===== */
+.news-text{text-align:center;color:#fff7c2;font-size:17px;line-height:1.8;}
+.news-text strong{color:#ffeb3b;}
+.news-space{width:120px;}
 .popup-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  display:none;align-items:center;justify-content:center;z-index:999;
 }
 .popup-box{
   background:linear-gradient(135deg,#2b1055,#000);
-  padding:24px;
-  border-radius:22px;
-  max-width:320px;
-  color:#fff7c2;
-  box-shadow:0 0 30px gold;
+  padding:24px;border-radius:22px;max-width:320px;
+  color:#fff7c2;box-shadow:0 0 30px gold;
 }
 .popup-box h3{color:#ffeb3b;}
 .popup-box button{
-  margin-top:14px;
-  padding:8px 20px;
-  border:none;
-  border-radius:20px;
-  background:#ffeb3b;
-  font-weight:bold;
+  margin-top:14px;padding:8px 20px;border:none;
+  border-radius:20px;background:#ffeb3b;font-weight:bold;
 }
-
-/* ===== MOBILE FIX ===== */
 @media(max-width:768px){
-  .frame-area{
-    grid-template-columns:1fr;
-    row-gap:16px;
-  }
+  .frame-area{grid-template-columns:1fr;row-gap:16px;}
   .namam img{width:90px;}
-  .news-bar{
-    grid-template-columns:1fr;
-    border-radius:26px;
-  }
+  .news-bar{grid-template-columns:1fr;border-radius:26px;}
   .news-space{display:none;}
   .news-photo{order:2;}
 }
@@ -237,17 +132,13 @@ canvas{
 </div>
 
 <div class="news-bar">
-  <div class="news-photo">
-    <img src="my-photo.jpeg">
-  </div>
-
+  <div class="news-photo"><img src="my-photo.jpeg"></div>
   <div class="news-text">
     వీణవంక మహా శివరాత్రికి విచ్చేస్తున్న<br>
     భక్తులందరికీ స్వాగతం, సుస్వాగతం 🙏<br>
     – మహాదేవుని ఆశీస్సులతో<br>
     <strong>అల్లేoకి రక్షిత్</strong>
   </div>
-
   <div class="news-space"></div>
 </div>
 
@@ -264,88 +155,72 @@ canvas{
 </div>
 
 <script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-const frame = new Image();
-frame.src = "frame.jpeg";
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+const frame=new Image();
+frame.src="frame.jpeg";
 
-let PHOTO_X = 619,
-    PHOTO_Y = 379,
-    PHOTO_W = 345,
-    PHOTO_H = 351;
-
-/* ===== COUNTER (LOCAL STORAGE) ===== */
-let counter = localStorage.getItem("veenavankaShivaratriCounter");
-
-if (!counter) {
-  counter = 1;
-} else {
-  counter = parseInt(counter);
-}
-
+let PHOTO_X=619,PHOTO_Y=379,PHOTO_W=345,PHOTO_H=351;
+let counter=localStorage.getItem("veenavankaShivaratriCounter");
+counter=counter?parseInt(counter):1;
 updateCounterText();
-/* ================================== */
 
-frame.onload = () => {
-  ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
-};
+frame.onload=()=>ctx.drawImage(frame,0,0,canvas.width,canvas.height);
 
-upload.onchange = e => {
-  const file = e.target.files[0];
-  if (!file) return;
+upload.onchange=e=>{
+  const img=new Image();
+  img.src=URL.createObjectURL(e.target.files[0]);
+  uploadOverlay.style.display="none";
+  img.onload=()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(frame,0,0,canvas.width,canvas.height);
 
-  uploadOverlay.style.display = "none";
+    const s=Math.min(img.width,img.height);
+    const sx=(img.width-s)/2;
+    const sy=(img.height-s)/2;
 
-  const img = new Image();
-  img.src = URL.createObjectURL(file);
+    const r=30,x=PHOTO_X,y=PHOTO_Y,w=PHOTO_W,h=PHOTO_H;
 
-  img.onload = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r);
+    ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h);
+    ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+    ctx.clip();
 
-    const s = Math.min(img.width, img.height);
-    ctx.drawImage(
-      img,
-      (img.width - s) / 2,
-      (img.height - s) / 2,
-      s, s,
-      PHOTO_X, PHOTO_Y,
-      PHOTO_W, PHOTO_H
-    );
+    ctx.drawImage(img,sx,sy,s,s,x,y,w,h);
+    ctx.restore();
 
-    increaseCounter();
-  };
-};
-
-function increaseCounter() {
-  counter++;
-  localStorage.setItem("veenavankaShivaratriCounter", counter);
-  updateCounterText();
-}
-
-function updateCounterText() {
-  const el = document.getElementById("count");
-  if (counter <= 100) {
-    el.textContent = "చాలా మంది";
-  } else {
-    el.textContent = Math.floor(counter / 100) * 100 + "+";
+    counter++;
+    localStorage.setItem("veenavankaShivaratriCounter",counter);
+    updateCounterText();
   }
+};
+
+function updateCounterText(){
+  count.textContent=counter<=100?"చాలా మంది":Math.floor(counter/100)*100+"+";
 }
 
 function download(){
-  const a = document.createElement("a");
-  a.download = "veenavanka-maha-shivaratri-dp.png";
-  a.href = canvas.toDataURL("image/png");
+  const a=document.createElement("a");
+  a.download="veenavanka-maha-shivaratri-dp.png";
+  a.href=canvas.toDataURL("image/png");
   a.click();
   setTimeout(()=>popup.style.display="flex",400);
 }
 
 function shareWhatsApp(){
-  const t = encodeURIComponent(
-    "🕉️ వీణవంక మహా శివరాత్రి ప్రత్యేక ఫోటో ఫ్రేమ్ 🙏\n" +
-    "మీ ఫోటో పెట్టి ఫోటో తయారు చేసుకోండి 👇\n"
+  const t=encodeURIComponent(
+    "🕉️ వీణవంక మహా శివరాత్రి ప్రత్యేక ఫోటో ఫ్రేమ్ 🙏\nమీ ఫోటో పెట్టి తయారు చేసుకోండి 👇\n"
   );
-  window.open("https://wa.me/?text=" + t + location.href);
+  window.open("https://wa.me/?text="+t+location.href);
 }
 </script>
 
